@@ -249,9 +249,16 @@
           // Get form data
           var formData = new FormData(leadForm);
           var formDataObject = {};
+
+          // Wrap form data in the 'content' object
+          formDataObject.content = {};
           formData.forEach(function (value, key) {
-            formDataObject[key] = value;
+            formDataObject.content[key] = value;
           });
+
+          // Add hardcoded values for caseTypeID and processID
+          formDataObject.caseTypeID = 'RHB-RBN-Work-Lead-Ind';
+          formDataObject.processID = 'pyStartCase';
 
           // Encode credentials for basic authorization
           var username = 'testadmin';
