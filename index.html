@@ -59,6 +59,44 @@
       color: lightskyblue;
     }
 
+    form {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+
+    button {
+      grid-column: span 2;
+      background-color: lightskyblue;
+      color: #1a1a1a;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #ffa500;
+    }
+
     .button {
       display: inline-block;
       padding: 10px 20px;
@@ -149,15 +187,46 @@
       </p>
     </div>
 
-    <form id="contactForm" class="hidden">
-      <label for="name">Name:</label>
-      <input type="text" id="name" name="name" >
+    <form id="leadForm" class="hidden">
+      <div>
+        <label for="leadName">Lead Name:</label>
+        <input type="text" id="leadName" name="LeadName" value="Axiata Business Lead" required>
 
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email" >
+        <label for="leadOwner">Lead Owner:</label>
+        <input type="email" id="leadOwner" name="LeadOwner" value="CKahandawa@virtusa.com" required>
 
-      <label for="message">Message:</label>
-      <textarea id="message" name="message" ></textarea>
+        <label for="leadRating">Lead Rating:</label>
+        <input type="text" id="leadRating" name="LeadRating" value="2-Warm" required>
+
+        <label for="leadCompanyName">Lead Company Name:</label>
+        <input type="text" id="leadCompanyName" name="LeadCompanyName" value="Campaign" required>
+
+        <label for="leadEmail">Lead Email:</label>
+        <input type="email" id="leadEmail" name="LeadEmail" value="ABC@abc.com" required>
+      </div>
+
+      <div>
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="FirstName" value="Arif" required>
+
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="LastName" value="Hanapi" required>
+
+        <label for="leadPhone">Lead Phone:</label>
+        <input type="tel" id="leadPhone" name="LeadPhone" value="0392221360" required>
+
+        <label for="leadMobile">Lead Mobile:</label>
+        <input type="tel" id="leadMobile" name="LeadMobile" value="6031234568" required>
+
+        <label for="territoryName">Territory Name:</label>
+        <input type="text" id="territoryName" name="TerritoryName" value="Global" required>
+
+        <label for="territoryID">Territory ID:</label>
+        <input type="text" id="territoryID" name="TerritoryID" value="BT1" required>
+
+        <label for="industry">Industry:</label>
+        <input type="text" id="industry" name="Industry" value="Retail" required>
+      </div>
 
       <button type="submit">Submit</button>
     </form>
@@ -166,38 +235,20 @@
       document.addEventListener('DOMContentLoaded', function () {
         var heroSection = document.querySelector('.hero-section');
         var contactButton = document.getElementById('contactButton');
-        var contactForm = document.getElementById('contactForm');
+        var leadForm = document.getElementById('leadForm');
 
         contactButton.addEventListener('click', function () {
           // Toggle the 'hidden' class on the hero section
           heroSection.classList.toggle('hidden');
-          contactForm.classList.toggle('hidden');
+          leadForm.classList.toggle('hidden');
         });
 
-        contactForm.addEventListener('submit', function (event) {
+        leadForm.addEventListener('submit', function (event) {
           event.preventDefault(); // Prevent the default form submission behavior
 
           // Get form data
-          var formData = new FormData(contactForm);
-          var formDataObject = {
-            "caseTypeID": "RHB-RBN-Work-Lead-Ind",
-            "processID": "pyStartCase",
-            "content":
-            {
-              "TerritoryName": "Global",
-              "TerritoryID": "BT1",
-              "Industry": "Retail",
-              "LeadName": "Axiata Business Lead",
-              "LeadOwner": "CKahandawa@virtusa.com",
-              "FirstName": "Arif",
-              "LeadCompanyName": "Campaign",
-              "LastName": "Hanapi",
-              "LeadPhone": "0392221360",
-              "LeadRating": "2-Warm",
-              "LeadMobile": "6031234568",
-              "LeadEmail": "ABC@abc.com"
-            }
-          };
+          var formData = new FormData(leadForm);
+          var formDataObject = {};
           formData.forEach(function (value, key) {
             formDataObject[key] = value;
           });
@@ -207,7 +258,7 @@
           var password = 'test';
           var credentials = btoa(username + ':' + password);
 
-          // Perform JSON request with basic authorization
+          // Perform JSON request with basic authorization and form data
           fetch('https://crm.pegatsdemo.com/prweb/api/v1/cases', {
             method: 'POST',
             headers: {
